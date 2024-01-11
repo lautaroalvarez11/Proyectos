@@ -1,0 +1,206 @@
+Problema a resolver:
+
+"La clínica “Salud+”, se acercó a la UNNOBA solicitando el desarrollo de un sistema de
+información, con el objetivo de automatizar su proceso de gestión de turnos. Más tarde, la
+Universidad lanzó una convocatoria abierta para estudiantes de las carreras de Informática
+y Sistemas. Las/os estudiantes de “Programación Imperativa” (cursada 2022), se
+presentaron en calidad de oferentes. Como resultado de la convocatoria, las y los
+estudiantes de “Programación Imperativa” (cursada 2022), han sido seleccionados para
+llevar a cabo el proyecto.
+
+A continuación, se describen las características generales del proyecto de desarrollo, surgidas a partir de reuniones preliminares con representantes de la institución de salud.
+En primer lugar, hay que identificar las principales entidades que intervienen. En este
+sentido, el sistema informático de gestión de turnos deberá contemplar las siguientes entidades y sus características:
+● Paciente: Apellido, nombre, dni y teléfono de la persona que desea realizar una
+consulta médica. En este caso, el DNI será el código único de identificación para la
+entidad. Por ejemplo: Pérez, Juan, 30.123.456, 2364567890.
+● Especialidad médica: Código único de identificación, nombre y descripción de la
+especialidad médica. Por ejemplo: 9999, Clínica Médica, Consultas generales de
+salud.
+● Turno: Cada turno estará formado por un código único de identificación, una fecha,
+un horario, un paciente, una especialidad médica y su estado (1 - “Activo”, 2 -
+“Cancelado”). Por ejemplo: el turno del paciente Pérez Juan para una consulta de
+Clínica Médica, quedaría representado del siguiente modo: 1234, 21/09/2022, 08:30,
+30.123.456, 9999, 1.
+Cada una de las entidades tendrá que ser administrada por el usuario del sistema, es decir, debe poder darlas de alta, modificarlas, eliminarlas y consultarlas.
+Graficamente las entidades estarían representadas como structs."
+
+
+
+Consideraciones a tener en cuenta a la hora de diseñar el sistema:
+Paciente:
+	● Alta: Todos los campos son requeridos (no pueden quedar vacíos).
+	● Baja: La búsqueda de un/una paciente a eliminar debe realizarse a través del número de documento.
+		○ Si la/el paciente no se encuentra en el sistema, informar por pantalla sobre
+		esta situación al usuario y regresar al menú anterior.
+		○ Si la/el paciente se encuentra en el sistema, se tendrán que mostrar en pantalla todos sus datos y preguntar al usuario si lo desea eliminar.
+			■ En caso afirmativo, proceder del siguiente modo: verificar que no
+			tenga uno o más turnos reservados activos. De ser así, el sistema
+			deberá impedir su eliminación e informar de esta situación al
+			usuario con el siguiente mensaje: “El paciente no puede eliminarse
+			debido a que aún posee uno o más turnos reservados”. En caso de
+			estar en condiciones de ser eliminado, proceder con la operación,
+			informar por pantalla que se eliminó con éxito y regresar al menú
+			anterior.
+			■ Si el usuario no desea eliminarlo, regresar al menú anterior.
+	Por ejemplo: Si se quiere eliminar al paciente “Juan Pérez” pero posee al
+	menos un turno reservado activo, se debería informar en pantalla de tal
+	situación y la baja quedaría sin efecto. Sin embargo, si se quisiera proceder 
+	a la baja efectiva del paciente, primero se tendrían que cancelar 
+	todos los turnos activos reservados a su nombre, y posteriormente, realizar nuevamente la baja.
+
+	● Modificación:
+	La búsqueda del paciente a modificar debe realizarse a través del
+	número de documento. Si la/el paciente no se encuentra en el sistema, informar
+	por pantalla sobre esta situación al usuario. Si la/el paciente se encuentra en el
+	sistema, proceder a su modificación del siguiente modo: sólo se permitirá editar el
+	apellido, nombre y/o teléfono (recordar que éstos campos no pueden quedar
+	vacíos, ya que, son obligatorios). Una vez modificados los datos, informar en
+	pantalla que la operación se realizó con éxito y regresar al menú anterior.
+
+	● Consultas:
+	El sistema deberá ofrecer la posibilidad de imprimir en pantalla dos
+	tipos de listados:
+		○ Completo: Reporte de todos los pacientes de la clínica, presentando en
+		pantalla sus datos completos.
+		○ Búsqueda: Reporte de todos los datos pero de un paciente en particular,
+		ingresando para ello, su número de documento por teclado.
+
+Especialidad Médica:
+	● Alta: Los campos código y nombre son requeridos (no pueden quedar vacíos).
+	La descripción es opcional. El código de cada especialidad debe ser generado de forma
+	automática por el sistema; es decir, no hay que solicitarlo para que el usuario lo
+	ingrese por teclado, pero sí mostrarlo en pantalla al momento del alta. El primer
+	código asignado por el sistema será el 0 (cero); y a partir de ahí, será el mayor código
+	existente más 1 (uno).
+	● Baja: La búsqueda de la especialidad médica a eliminar debe realizarse a través del
+	código único de identificación.
+		○ Si la especialidad médica no se encuentra en el sistema, informar por
+		pantalla sobre esta situación al usuario.
+		○ Si la especialidad médica se encuentra en el sistema, se tendrán que
+		mostrar en pantalla todos sus datos y preguntar al usuario si la desea eliminar.
+			■ En caso afirmativo, proceder del siguiente modo: verificar que no
+			esté presente en alguno de los turnos reservados activos. De ser así,
+			el sistema deberá impedir su eliminación e informará de esta
+			situación al usuario con el siguiente mensaje: “La especialidad
+			médica no puede eliminarse debido a que se encuentra presente en
+			uno o más turnos reservados”. En caso de estar en condiciones de
+			ser eliminada, proceder con la operación, informar por pantalla que
+			se eliminó con éxito y regresar al menú anterior.
+			■ Si el usuario no desea eliminarla, regresar al menú anterior.
+	Por ejemplo: Si se quiere eliminar la especialidad “Clínica Médica” pero se
+	encuentra presente en uno o más turnos reservados activos, se debería
+	informar en pantalla de tal situación y la baja quedaría sin efecto. Sin
+	embargo, si se quisiera proceder a la baja efectiva de la especialidad
+	médica, primero se tendrían que cancelar todos los turnos en donde la
+	misma se encuentre presente, y posteriormente, realizar nuevamente la baja.
+	● Modificación: La búsqueda de la especialidad médica a modificar debe realizarse a
+	través del código único de identificación. Si la especialidad no se encuentra en el
+	sistema, informar por pantalla sobre esta situación al usuario. Si la especialidad
+	médica se encuentra en el sistema, proceder a su modificación del siguiente modo:
+	sólo se podrá modificar el nombre y/o la descripción (el código, al ser automático,
+	no puede editarse). Recordar que el nombre de la especialidad médica, no puede
+	quedar vacío, ya que, es obligatorio. Una vez modificados los datos, informar en
+	pantalla que la operación se realizó con éxito y regresar al menú anterior.
+	● Consultas: El sistema deberá ofrecer la posibilidad de imprimir en pantalla dos
+	tipos de listados:
+		○ Completo: Reporte de todas las especialidades médicas de la clínica,
+		presentando en pantalla todos sus datos.
+		○ Búsqueda: Reporte de todos los datos de una especialidad médica en
+		particular, ingresando para ello, su código único de identificación por teclado.
+
+Turno:
+	● Reserva: Todos los campos son requeridos (no pueden quedar vacíos). El código de
+	cada turno debe ser generado de forma automática por el sistema; es decir, no hay
+	que solicitarlo para que el usuario lo ingrese por teclado, pero sí mostrarlo en
+	pantalla al momento del alta. El primer código asignado por el sistema será el 0
+	(cero); y a partir de ahí, será el mayor código existente más 1 (uno). El campo
+	“paciente” almacenará el número de DNI de una/un paciente. Por su parte, el
+	campo “especialidad médica”, hará lo propio con el código único de identificación.
+	El campo “estado”, asumirá dos posibles valores: 1 - “Activo” ó 2 - “Cancelado”. Por
+	defecto, al momento de crearse el turno, asumirá el valor 1 - “Activo”. Por otro
+	lado, el sistema no debería permitir la carga de un turno para un mismo paciente y
+	misma especialidad.
+	● Cancelación: La búsqueda del turno a cancelar debe realizarse a través del número de DNI de una/un paciente.
+		○ Si no hay turnos registrados, informar por pantalla sobre esta situación al
+		usuario y regresar al menú anterior.
+		○ Si hay un solo turno registrado en el sistema, mostrar en pantalla todos sus
+		datos y preguntar al usuario si lo desea cancelar. Ir a “En caso afirmativo”.
+		○ Si hay más de un turno registrado en el sistema, mostrar en pantalla todos
+		sus datos, solicitar el ingreso por teclado del código único de identificación del turno y preguntar al usuario si efectivamente, lo desea cancelar.Ir a “En caso afirmativo”.
+			■ En caso afirmativo, proceder del siguiente modo: los turnos sólo
+			podrán darse de baja con una antelación mínima de 48 horas. Caso
+			contrario, el sistema informará de esta situación al usuario con el
+			siguiente mensaje: “Por razones de agenda, el turno no puede ser
+			cancelado”. Posteriormente, la clínica se contactará telefónicamente
+			con el paciente para solicitarle el cobro de un cargo adicional en
+			concepto de penalización. En caso de estar en condiciones de ser
+			cancelado, modificar el campo estado con el valor 2 - “Cancelado”,
+			informar por pantalla que se canceló con éxito y regresar al menú anterior.
+			■ Si el usuario no desea cancelarlo, regresar al menú anterior.
+	● Modificación: La búsqueda del turno a modificar debe realizarse a través del
+	número de DNI de una/un paciente. Si no hay turnos registrados, informar por
+	pantalla sobre esta situación al usuario. Si hay turnos registrados en el sistema,
+	proceder a su modificación del siguiente modo: en primer lugar, mostrar todos los
+	datos de los turnos activos. En segundo lugar, seleccionar el turno a modificar. Para
+	ello, solicitar el ingreso por teclado del código único de identificación del turno.
+	Finalmente, ofrecer la posibilidad de modificar la fecha y hora del turno. Recordar
+	que ambos datos, no pueden quedar vacíos, ya que, son obligatorios. Una vez
+	modificados los datos, informar en pantalla que la operación se realizó con éxito y regresar al menú anterior.
+	● Consultas: El sistema deberá ofrecer la posibilidad de imprimir en pantalla dos
+	tipos de listados:
+		○ Completo: Listado de todos los turnos “Activos” (pendientes de atención),
+		presentando en pantalla sus datos.
+		○ Búsqueda: Listar un conjunto de turnos permitiendo filtrar por fecha,
+		paciente, especialidad médica o estado (“Activo” ó “Cancelado”). Es decir,
+		que se pueden formar cuatro tipos de reportes: uno filtrado por fecha, otro
+		para un paciente en particular, uno para una especialidad médica en
+		concreto y, por último, según su estado.
+
+
+
+Interfaz Gráfica de Usuario
+El sistema debe ofrecer una interfaz gráfica de usuario, que se implementará a través de
+un menú de opciones. El menú, debe presentarse con la siguiente estructura:
+
+Primer nivel:
+	1. Administrar Especialidades Médicas.
+	2. Administrar Pacientes.
+	3. Administrar Turnos.
+	4. Salir
+
+Segundo nivel:
+	1. Administrar Especialidades Médicas:
+		a) Alta de Especialidades Médicas.
+		b) Modificación de Especialidades Médicas.
+		c) Baja de Especialidades Médicas.
+		d) Listado de Especialidades Médicas:
+			■ Completo.
+			■ Búsqueda.
+		e) Menú principal
+	2. Administrar Pacientes:
+		a) Alta de Pacientes.
+		b) Modificación de Pacientes.
+		c) Baja de Pacientes.
+		d) Listado de Pacientes:
+			■ Completo.
+			■ Búsqueda.
+		e) Menú principal
+	3. Administrar Turnos:
+		a) Alta de Turnos.
+		b) Modificación de Turnos.
+		c) Baja de Turnos.
+		d) Listado de Turnos:
+			■ Completo.
+			■ Búsqueda (recuerden ofrecer la posibilidad de filtrar por fecha, paciente, especialidad médica o estado).
+		e) Menú principal
+
+
+
+Información Adicional sobre Salud+
+La clínica “Salud+” trabaja con la modalidad de turnos de lunes a viernes de 08:00 a 19:00 h
+y posee un profesional médico por especialidad. La duración de cada consulta es de 30
+minutos. Por lo tanto, los turnos deben emitirse con espacios entre sí, de 30 minutos. Las
+especialidades médicas son: clínica médica, oftalmología, pediatría, urología, traumatología,
+neurología, odontología, ginecología, maternidad, gastroenterología y diagnóstico por
+imágenes.
