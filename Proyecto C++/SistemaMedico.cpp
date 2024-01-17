@@ -91,7 +91,7 @@ int Menu_Principal()
                     case 1:
                     {
                         Alta_Paciente(Nombre, Apellido, DNI, Telefono);
-                        cout << "Presione ENTER para continuar" << endl;
+                        cout << "Presione ENTER para volver al menu principal" << endl;
                         cin.ignore(); // Descartar el carácter de nueva línea en el buffer
                         cin.get();    // Esperar a que el usuario presione ENTER
                         break;
