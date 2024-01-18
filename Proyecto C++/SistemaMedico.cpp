@@ -31,13 +31,13 @@ void Alta_Paciente(string &Nombre, string &Apellido, long &DNI, long &Telefono)
         condicional += 1;
     }
 
-    // El DNI y el teléfono no pueden ser negativos ni superar el rango definido
-    if (DNI > 0 && DNI < 9)
+    // El DNI y el teléfono no pueden ser negativos
+    if (DNI > 0)
     {
         condicional += 1;
     }
 
-    if (Telefono > 0 && Telefono < 11)
+    if (Telefono > 0)
     {
         condicional += 1;
     }
@@ -83,7 +83,7 @@ int Menu_Principal()
                 cout << "3. Modificacion de Paciente" << endl;
                 cout << "4. Consulta de Paciente" << endl;
                 cout << "5. Volver al menu principal" << endl;
-                cout << "Ingrese un area para continuar: ";
+                cout << "Ingrese un apartado para continuar: ";
                 cin >> Opcion_Elegida_En_Administrar_Paciente;
 
                 switch(Opcion_Elegida_En_Administrar_Paciente)
